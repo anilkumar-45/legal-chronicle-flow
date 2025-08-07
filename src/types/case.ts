@@ -2,7 +2,7 @@ export interface CaseEntry {
   id: string;
   previousDate: string;
   caseDetails: string;
-  status: 'pending' | 'active' | 'completed' | 'urgent';
+  status: CaseStatus;
   nextDate: string;
   createdAt: string;
   updatedAt: string;
@@ -13,4 +13,21 @@ export interface DailyView {
   cases: CaseEntry[];
 }
 
-export type CaseStatus = 'pending' | 'active' | 'completed' | 'urgent';
+export type CaseStatus = 
+  | 'summons' 
+  | 'hearing' 
+  | 'judgment' 
+  | 'appeal' 
+  | 'pending' 
+  | 'active' 
+  | 'completed' 
+  | 'urgent' 
+  | 'dismissed' 
+  | 'settled';
+
+export interface CaseStats {
+  total: number;
+  byStatus: Record<CaseStatus, number>;
+  upcoming: number;
+  today: number;
+}

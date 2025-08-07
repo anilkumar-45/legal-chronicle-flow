@@ -9,10 +9,16 @@ interface CaseCardProps {
 }
 
 const statusColors = {
+  summons: "bg-blue-500 text-white",
+  hearing: "bg-purple-500 text-white",
+  judgment: "bg-green-600 text-white",
+  appeal: "bg-orange-500 text-white",
   pending: "bg-status-pending text-white",
   active: "bg-status-active text-white", 
   completed: "bg-status-completed text-white",
-  urgent: "bg-status-urgent text-white"
+  urgent: "bg-status-urgent text-white",
+  dismissed: "bg-gray-500 text-white",
+  settled: "bg-emerald-500 text-white"
 };
 
 const CaseCard = ({ caseEntry }: CaseCardProps) => {

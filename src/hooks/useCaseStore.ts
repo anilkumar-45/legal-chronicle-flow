@@ -56,10 +56,15 @@ export const useCaseStore = () => {
     setCases(prev => prev.filter(caseEntry => caseEntry.id !== id));
   };
 
+  const getAllCases = () => {
+    return cases;
+  };
+
   return {
     cases,
     addCase,
     getCasesForDate,
+    getAllCases,
     updateCase,
     deleteCase
   };
