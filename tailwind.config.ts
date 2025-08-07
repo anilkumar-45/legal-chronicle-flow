@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				serif: ['Crimson Text', 'serif'],
+				sans: ['Inter', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -51,6 +55,20 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				legal: {
+					navy: 'hsl(var(--legal-navy))',
+					'navy-light': 'hsl(var(--legal-navy-light))',
+					gold: 'hsl(var(--legal-gold))',
+					'gold-light': 'hsl(var(--legal-gold-light))',
+					gray: 'hsl(var(--legal-gray))',
+					'gray-light': 'hsl(var(--legal-gray-light))'
+				},
+				status: {
+					pending: 'hsl(var(--status-pending))',
+					active: 'hsl(var(--status-active))',
+					completed: 'hsl(var(--status-completed))',
+					urgent: 'hsl(var(--status-urgent))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
