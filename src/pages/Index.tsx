@@ -49,23 +49,23 @@ const Index = () => {
               onDateChange={setSelectedDate}
             />
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
+              <div className="space-y-4 md:space-y-6">
                 <CaseForm onSubmit={addCase} />
               </div>
 
-              <div className="space-y-6">
-                <div className="bg-white/50 rounded-xl border border-legal-gray-light/30 p-6">
-                  <h2 className="text-xl font-serif font-semibold text-legal-navy mb-4">
+              <div className="space-y-4 md:space-y-6">
+                <div className="bg-white/50 rounded-xl border border-legal-gray-light/30 p-4 md:p-6">
+                  <h2 className="text-lg md:text-xl font-serif font-semibold text-legal-navy mb-3 md:mb-4">
                     Cases for {format(selectedDate, "MMMM d, yyyy")}
                   </h2>
                   
                   {casesForSelectedDate.length === 0 ? (
-                    <div className="text-center py-8">
-                      <p className="text-legal-gray">No cases scheduled for this date.</p>
+                    <div className="text-center py-6 md:py-8">
+                      <p className="text-legal-gray text-sm md:text-base">No cases scheduled for this date.</p>
                     </div>
                   ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-3 md:space-y-4">
                       {casesForSelectedDate.map((caseEntry) => (
                         <CaseCard key={caseEntry.id} caseEntry={caseEntry} />
                       ))}
@@ -83,7 +83,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header activeView={activeView} onViewChange={setActiveView} />
       
-      <main className="container mx-auto px-6 py-8 space-y-8">
+      <main className="container mx-auto px-2 md:px-6 py-4 md:py-8 space-y-6 md:space-y-8">
         {renderContent()}
       </main>
     </div>

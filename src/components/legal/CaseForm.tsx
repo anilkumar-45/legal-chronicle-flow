@@ -57,16 +57,16 @@ const CaseForm = ({ onSubmit }: CaseFormProps) => {
 
   return (
     <Card className="gradient-card shadow-card border-legal-gray-light/30">
-      <CardHeader>
-        <CardTitle className="text-xl font-serif text-legal-navy flex items-center gap-2">
-          <Plus className="w-5 h-5 text-legal-gold" />
+      <CardHeader className="pb-4">
+        <CardTitle className="text-lg md:text-xl font-serif text-legal-navy flex items-center gap-2">
+          <Plus className="w-4 h-4 md:w-5 md:h-5 text-legal-gold" />
           Add New Case Entry
         </CardTitle>
       </CardHeader>
       
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <CardContent className="px-4 md:px-6">
+        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div className="space-y-2">
               <Label htmlFor="previousDate" className="text-sm font-medium text-legal-navy">
                 Previous Date *
@@ -165,7 +165,7 @@ const CaseForm = ({ onSubmit }: CaseFormProps) => {
 
           <Button 
             type="submit" 
-            className="w-full gradient-accent text-legal-navy font-semibold shadow-accent hover:shadow-lg transition-all duration-300"
+            className="w-full gradient-accent text-legal-navy font-semibold shadow-accent hover:shadow-lg transition-all duration-300 py-2 md:py-3 text-sm md:text-base"
           >
             Add Case Entry
           </Button>

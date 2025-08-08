@@ -24,37 +24,37 @@ const statusColors = {
 const CaseCard = ({ caseEntry }: CaseCardProps) => {
   return (
     <Card className="gradient-card shadow-card hover:shadow-legal transition-all duration-300 border-legal-gray-light/30">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-4">
-          <CardTitle className="text-lg font-serif text-legal-navy flex-1">
+      <CardHeader className="pb-3 p-4 md:p-6">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-4">
+          <CardTitle className="text-base md:text-lg font-serif text-legal-navy flex-1">
             Case Details
           </CardTitle>
-          <Badge className={`${statusColors[caseEntry.status]} font-medium px-3 py-1`}>
+          <Badge className={`${statusColors[caseEntry.status]} font-medium px-2 md:px-3 py-1 text-xs w-fit`}>
             {caseEntry.status.charAt(0).toUpperCase() + caseEntry.status.slice(1)}
           </Badge>
         </div>
       </CardHeader>
       
-      <CardContent className="space-y-4">
-        <div className="bg-muted/50 p-4 rounded-lg">
-          <p className="text-foreground leading-relaxed">
+      <CardContent className="space-y-3 md:space-y-4 p-4 md:p-6 pt-0">
+        <div className="bg-muted/50 p-3 md:p-4 rounded-lg">
+          <p className="text-foreground leading-relaxed text-sm md:text-base break-words">
             {caseEntry.caseDetails}
           </p>
         </div>
         
-        <div className="flex items-center gap-4 text-sm text-legal-gray">
+        <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-4 text-xs md:text-sm text-legal-gray">
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
             <span className="font-medium">Previous:</span>
-            <span>{format(new Date(caseEntry.previousDate), "dd MMM yyyy")}</span>
+            <span className="break-all">{format(new Date(caseEntry.previousDate), "dd MMM yyyy")}</span>
           </div>
           
-          <ArrowRight className="w-4 h-4 text-legal-gold" />
+          <ArrowRight className="w-3 h-3 md:w-4 md:h-4 text-legal-gold hidden md:block" />
           
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" />
             <span className="font-medium">Next:</span>
-            <span>{format(new Date(caseEntry.nextDate), "dd MMM yyyy")}</span>
+            <span className="break-all">{format(new Date(caseEntry.nextDate), "dd MMM yyyy")}</span>
           </div>
         </div>
       </CardContent>

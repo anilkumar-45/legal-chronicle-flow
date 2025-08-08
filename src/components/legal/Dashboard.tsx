@@ -59,46 +59,46 @@ const Dashboard = ({ cases, onDateSelect }: DashboardProps) => {
   }).sort((a, b) => new Date(a.nextDate).getTime() - new Date(b.nextDate).getTime());
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 md:space-y-8 px-2 md:px-0">
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
         <Card className="gradient-card shadow-card border-legal-gray-light/30">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-legal-navy">Total Cases</CardTitle>
-            <FileText className="h-4 w-4 text-legal-gold" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 md:p-6">
+            <CardTitle className="text-xs md:text-sm font-medium text-legal-navy">Total Cases</CardTitle>
+            <FileText className="h-3 w-3 md:h-4 md:w-4 text-legal-gold" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-legal-navy">{stats.total}</div>
+          <CardContent className="p-3 md:p-6 pt-0">
+            <div className="text-lg md:text-2xl font-bold text-legal-navy">{stats.total}</div>
           </CardContent>
         </Card>
 
         <Card className="gradient-card shadow-card border-legal-gray-light/30">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-legal-navy">Today's Cases</CardTitle>
-            <Calendar className="h-4 w-4 text-legal-gold" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 md:p-6">
+            <CardTitle className="text-xs md:text-sm font-medium text-legal-navy">Today's Cases</CardTitle>
+            <Calendar className="h-3 w-3 md:h-4 md:w-4 text-legal-gold" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-legal-navy">{stats.today}</div>
+          <CardContent className="p-3 md:p-6 pt-0">
+            <div className="text-lg md:text-2xl font-bold text-legal-navy">{stats.today}</div>
           </CardContent>
         </Card>
 
         <Card className="gradient-card shadow-card border-legal-gray-light/30">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-legal-navy">Upcoming (7 days)</CardTitle>
-            <Clock className="h-4 w-4 text-legal-gold" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 md:p-6">
+            <CardTitle className="text-xs md:text-sm font-medium text-legal-navy">Upcoming</CardTitle>
+            <Clock className="h-3 w-3 md:h-4 md:w-4 text-legal-gold" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-legal-navy">{stats.upcoming}</div>
+          <CardContent className="p-3 md:p-6 pt-0">
+            <div className="text-lg md:text-2xl font-bold text-legal-navy">{stats.upcoming}</div>
           </CardContent>
         </Card>
 
         <Card className="gradient-card shadow-card border-legal-gray-light/30">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-legal-navy">Active Cases</CardTitle>
-            <TrendingUp className="h-4 w-4 text-legal-gold" />
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-3 md:p-6">
+            <CardTitle className="text-xs md:text-sm font-medium text-legal-navy">Active</CardTitle>
+            <TrendingUp className="h-3 w-3 md:h-4 md:w-4 text-legal-gold" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-legal-navy">{stats.byStatus.active || 0}</div>
+          <CardContent className="p-3 md:p-6 pt-0">
+            <div className="text-lg md:text-2xl font-bold text-legal-navy">{stats.byStatus.active || 0}</div>
           </CardContent>
         </Card>
       </div>
