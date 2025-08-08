@@ -72,14 +72,14 @@ const CalendarView = ({ cases, selectedDate, onDateSelect }: CalendarViewProps) 
   };
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-8">
       {/* Calendar Grid */}
       <div className="xl:col-span-2">
         <Card className="gradient-card shadow-card border-legal-gray-light/30">
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-xl font-serif text-legal-navy flex items-center gap-2">
-                <CalendarIcon className="w-5 h-5 text-legal-gold" />
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-0">
+              <CardTitle className="text-lg md:text-xl font-serif text-legal-navy flex items-center gap-2">
+                <CalendarIcon className="w-4 h-4 md:w-5 md:h-5 text-legal-gold" />
                 {format(currentMonth, "MMMM yyyy")}
               </CardTitle>
               <div className="flex items-center gap-2">
@@ -115,7 +115,7 @@ const CalendarView = ({ cases, selectedDate, onDateSelect }: CalendarViewProps) 
             <div className="grid grid-cols-7 gap-1 mb-4">
               {/* Day Headers */}
               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                <div key={day} className="p-2 text-center text-sm font-medium text-legal-gray">
+                <div key={day} className="p-1 md:p-2 text-center text-[11px] md:text-sm font-medium text-legal-gray">
                   {day}
                 </div>
               ))}
@@ -132,7 +132,7 @@ const CalendarView = ({ cases, selectedDate, onDateSelect }: CalendarViewProps) 
                     key={day.toISOString()}
                     onClick={() => onDateSelect(day)}
                     className={`
-                      min-h-[80px] p-2 text-left border border-legal-gray-light/30 rounded-lg
+                      min-h-[64px] md:min-h-[88px] p-1 md:p-2 text-left text-xs md:text-sm border border-legal-gray-light/30 rounded-lg
                       transition-all duration-200 hover:bg-legal-gold/10
                       ${isSelected ? 'bg-legal-gold/20 border-legal-gold' : ''}
                       ${!isCurrentMonth ? 'opacity-50' : ''}
@@ -140,7 +140,7 @@ const CalendarView = ({ cases, selectedDate, onDateSelect }: CalendarViewProps) 
                     `}
                   >
                     <div className={`
-                      text-sm font-medium mb-1 
+                      text-xs md:text-sm font-medium mb-1 
                       ${isTodayDate ? 'text-legal-navy font-bold' : 'text-foreground'}
                       ${isSelected ? 'text-legal-navy font-bold' : ''}
                     `}>
@@ -175,7 +175,7 @@ const CalendarView = ({ cases, selectedDate, onDateSelect }: CalendarViewProps) 
       <div className="xl:col-span-1">
         <Card className="gradient-card shadow-card border-legal-gray-light/30">
           <CardHeader>
-            <CardTitle className="text-lg font-serif text-legal-navy">
+            <CardTitle className="text-base md:text-lg font-serif text-legal-navy">
               {format(selectedDate, "MMMM d, yyyy")}
             </CardTitle>
             {isToday(selectedDate) && (
@@ -188,7 +188,7 @@ const CalendarView = ({ cases, selectedDate, onDateSelect }: CalendarViewProps) 
                 <p className="text-legal-gray">No cases scheduled for this date.</p>
               </div>
             ) : (
-              <div className="space-y-4 max-h-96 overflow-y-auto">
+              <div className="space-y-3 md:space-y-4 max-h-80 md:max-h-96 overflow-y-auto">
                 {selectedDateCases.map((caseEntry) => (
                   <CaseCard key={caseEntry.id} caseEntry={caseEntry} />
                 ))}

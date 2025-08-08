@@ -79,13 +79,13 @@ const CaseManager = ({ cases, onAddCase, onUpdateCase, onDeleteCase }: CaseManag
   return (
     <div className="space-y-6">
       <Tabs defaultValue="list" className="w-full">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-0 mb-3 md:mb-6">
           <TabsList className="grid w-auto grid-cols-2">
             <TabsTrigger value="list">Case List</TabsTrigger>
             <TabsTrigger value="add">Add New Case</TabsTrigger>
           </TabsList>
           
-          <div className="flex gap-2">
+          <div className="flex gap-2 self-end md:self-auto">
             <Button
               onClick={handleExportCases}
               variant="outline"
@@ -112,7 +112,7 @@ const CaseManager = ({ cases, onAddCase, onUpdateCase, onDeleteCase }: CaseManag
             </CardHeader>
             <CardContent>
               {filteredCases.length === 0 ? (
-                <div className="text-center py-12">
+                <div className="text-center py-8 md:py-12">
                   <p className="text-legal-gray mb-4">No cases found matching your criteria.</p>
                   <Button variant="outline" onClick={() => setFilteredCases(cases)}>
                     Clear Filters
@@ -125,7 +125,7 @@ const CaseManager = ({ cases, onAddCase, onUpdateCase, onDeleteCase }: CaseManag
                       key={caseEntry.id}
                       className="p-4 bg-white/50 rounded-lg border border-legal-gray-light/30 hover:shadow-md transition-shadow"
                     >
-                      <div className="flex items-start justify-between gap-4">
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 md:gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-2">
                             <Badge className={`${statusColors[caseEntry.status]} text-xs`}>
@@ -150,7 +150,7 @@ const CaseManager = ({ cases, onAddCase, onUpdateCase, onDeleteCase }: CaseManag
                           </div>
                         </div>
                         
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 pt-3 md:pt-0 md:self-auto">
                           <Button
                             variant="outline"
                             size="sm"

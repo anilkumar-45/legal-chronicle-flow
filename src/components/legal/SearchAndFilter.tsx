@@ -64,9 +64,9 @@ const SearchAndFilter = ({ cases, onFilteredCasesChange }: SearchAndFilterProps)
 
   return (
     <Card className="gradient-card shadow-card border-legal-gray-light/30">
-      <CardContent className="p-4">
+      <CardContent className="p-3 md:p-4">
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-legal-gray w-4 h-4" />
               <Input
@@ -78,7 +78,7 @@ const SearchAndFilter = ({ cases, onFilteredCasesChange }: SearchAndFilterProps)
             </div>
             
             <Select value={statusFilter} onValueChange={(value: CaseStatus | "all") => setStatusFilter(value)}>
-              <SelectTrigger className="w-[180px] border-legal-gray-light">
+              <SelectTrigger className="w-full md:w-[180px] border-legal-gray-light">
                 <Filter className="w-4 h-4 mr-2" />
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
@@ -98,7 +98,7 @@ const SearchAndFilter = ({ cases, onFilteredCasesChange }: SearchAndFilterProps)
             </Select>
 
             <Select value={dateFilter} onValueChange={(value: "all" | "upcoming" | "past") => setDateFilter(value)}>
-              <SelectTrigger className="w-[140px] border-legal-gray-light">
+              <SelectTrigger className="w-full md:w-[140px] border-legal-gray-light">
                 <SelectValue placeholder="Date" />
               </SelectTrigger>
               <SelectContent>

@@ -28,7 +28,7 @@ const DateNavigator = ({ selectedDate, onDateChange }: DateNavigatorProps) => {
   };
 
   return (
-    <div className="flex items-center gap-4 p-6 bg-white/50 rounded-xl border border-legal-gray-light/30">
+    <div className="flex flex-wrap md:flex-nowrap items-center gap-2 md:gap-4 p-3 md:p-6 bg-white/50 rounded-xl border border-legal-gray-light/30">
       <Button
         variant="outline"
         size="sm"
@@ -38,13 +38,13 @@ const DateNavigator = ({ selectedDate, onDateChange }: DateNavigatorProps) => {
         <ChevronLeft className="w-4 h-4" />
       </Button>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-2 md:gap-4">
         <Popover>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               className={cn(
-                "min-w-[200px] justify-start text-left font-medium border-legal-gray-light",
+                "min-w-0 md:min-w-[220px] justify-start text-left font-medium text-sm md:text-base border-legal-gray-light",
                 "hover:bg-legal-gold/10"
               )}
             >
