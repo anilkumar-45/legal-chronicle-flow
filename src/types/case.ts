@@ -6,6 +6,7 @@ export interface CaseEntry {
   nextDate: string;
   createdAt: string;
   updatedAt: string;
+  teamId?: string | null;
 }
 
 export interface DailyView {

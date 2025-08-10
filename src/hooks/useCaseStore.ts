@@ -11,6 +11,7 @@ const mapRowToCase = (row: any): CaseEntry => ({
   caseDetails: row.case_details,
   createdAt: new Date(row.created_at).toISOString(),
   updatedAt: new Date(row.updated_at).toISOString(),
+  teamId: row.team_id ?? null,
 });
 
 // Ensure YYYY-MM-DD for DATE columns
@@ -71,7 +72,8 @@ export const useCaseStore = () => {
       next_date: toDateOnly(caseData.nextDate),
       status: caseData.status,
       case_details: caseData.caseDetails,
-    };
+      team_id: caseData.teamId ?? null,
+    } as any;
 
     const { data, error } = await supabase
       .from("cases")
@@ -102,6 +104,7 @@ export const useCaseStore = () => {
     if (updates.nextDate) payload.next_date = toDateOnly(updates.nextDate);
     if (updates.status) payload.status = updates.status;
     if (updates.caseDetails) payload.case_details = updates.caseDetails;
+    if ("teamId" in updates) payload.team_id = updates.teamId ?? null;
 
     const { data, error } = await supabase
       .from("cases")

@@ -12,7 +12,7 @@ import { CalendarIcon, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CaseEntry, CaseStatus } from "@/types/case";
 import { useToast } from "@/hooks/use-toast";
-
+import TeamSelect from "./TeamSelect";
 interface CaseFormProps {
   onSubmit: (caseEntry: Omit<CaseEntry, 'id' | 'createdAt' | 'updatedAt'>) => void;
 }
@@ -22,6 +22,7 @@ const CaseForm = ({ onSubmit }: CaseFormProps) => {
   const [nextDate, setNextDate] = useState<Date>();
   const [caseDetails, setCaseDetails] = useState("");
   const [status, setStatus] = useState<CaseStatus>("pending");
+  const [teamId, setTeamId] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -40,7 +41,8 @@ const CaseForm = ({ onSubmit }: CaseFormProps) => {
       previousDate: previousDate.toISOString(),
       nextDate: nextDate.toISOString(),
       caseDetails: caseDetails.trim(),
-      status
+      status,
+      teamId: teamId ?? null,
     });
 
     // Reset form
@@ -48,6 +50,7 @@ const CaseForm = ({ onSubmit }: CaseFormProps) => {
     setNextDate(undefined);
     setCaseDetails("");
     setStatus("pending");
+    setTeamId(null);
 
     toast({
       title: "Case Added",
@@ -147,6 +150,10 @@ const CaseForm = ({ onSubmit }: CaseFormProps) => {
                 <SelectItem value="settled">Settled</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="space-y-2">
+            <TeamSelect label="Team (optional)" value={teamId} onChange={setTeamId} />
           </div>
 
           <div className="space-y-2">

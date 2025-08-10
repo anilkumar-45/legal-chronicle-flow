@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CaseEntry, CaseStatus } from "@/types/case";
+import TeamSelect from "./TeamSelect";
 
 interface EditCaseDialogProps {
   case: CaseEntry;
@@ -23,14 +24,16 @@ const EditCaseDialog = ({ case: caseData, isOpen, onClose, onSave }: EditCaseDia
   const [previousDate, setPreviousDate] = useState<Date>();
   const [nextDate, setNextDate] = useState<Date>();
   const [caseDetails, setCaseDetails] = useState("");
-  const [status, setStatus] = useState<CaseStatus>("pending");
+const [status, setStatus] = useState<CaseStatus>("pending");
+  const [teamId, setTeamId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (caseData) {
+  if (caseData) {
       setPreviousDate(new Date(caseData.previousDate));
       setNextDate(new Date(caseData.nextDate));
       setCaseDetails(caseData.caseDetails);
       setStatus(caseData.status);
+      setTeamId(caseData.teamId ?? null);
     }
   }, [caseData]);
 
@@ -45,7 +48,8 @@ const EditCaseDialog = ({ case: caseData, isOpen, onClose, onSave }: EditCaseDia
       previousDate: previousDate.toISOString(),
       nextDate: nextDate.toISOString(),
       caseDetails: caseDetails.trim(),
-      status
+      status,
+      teamId: teamId ?? null,
     });
   };
 
@@ -140,6 +144,10 @@ const EditCaseDialog = ({ case: caseData, isOpen, onClose, onSave }: EditCaseDia
                 <SelectItem value="settled">Settled</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          <div className="space-y-2">
+            <TeamSelect label="Team (optional)" value={teamId} onChange={setTeamId} />
           </div>
 
           <div className="space-y-2">
