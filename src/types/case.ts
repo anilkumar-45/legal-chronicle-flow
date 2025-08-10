@@ -32,3 +32,15 @@ export interface CaseStats {
   upcoming: number;
   today: number;
 }
+
+export type CaseHistoryField = 'previous_date' | 'next_date';
+
+export interface CaseHistoryEvent {
+  id: string;
+  caseId: string;
+  field: CaseHistoryField;
+  oldDate: string | null;
+  newDate: string | null;
+  changedAt: string;
+  changedBy: string;
+}

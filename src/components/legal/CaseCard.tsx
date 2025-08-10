@@ -3,7 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowRight } from "lucide-react";
 import { CaseEntry } from "@/types/case";
 import { format } from "date-fns";
-
+import { useState } from "react";
+import CaseHistory from "./CaseHistory";
 interface CaseCardProps {
   caseEntry: CaseEntry;
 }
@@ -22,6 +23,7 @@ const statusColors = {
 };
 
 const CaseCard = ({ caseEntry }: CaseCardProps) => {
+  const [showHistory, setShowHistory] = useState(false);
   return (
     <Card className="gradient-card shadow-card hover:shadow-legal transition-all duration-300 border-legal-gray-light/30">
       <CardHeader className="pb-3 p-4 md:p-6">
@@ -57,6 +59,17 @@ const CaseCard = ({ caseEntry }: CaseCardProps) => {
             <span className="break-all">{format(new Date(caseEntry.nextDate), "dd MMM yyyy")}</span>
           </div>
         </div>
+
+        <button
+          type="button"
+          onClick={() => setShowHistory((s) => !s)}
+          className="text-legal-gold hover:text-legal-gold-light text-xs md:text-sm font-medium transition-colors"
+          aria-expanded={showHistory}
+        >
+          {showHistory ? 'Hide history' : 'View history'}
+        </button>
+
+        {showHistory && <CaseHistory caseId={caseEntry.id} />}
       </CardContent>
     </Card>
   );
