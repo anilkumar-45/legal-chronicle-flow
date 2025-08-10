@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, TrendingUp, Clock, FileText } from "lucide-react";
 import { CaseEntry, CaseStats } from "@/types/case";
-import { format, isToday, isThisWeek, addDays } from "date-fns";
+import { format, isToday, addDays, startOfDay, endOfDay, isWithinInterval } from "date-fns";
 import CaseCard from "./CaseCard";
 
 interface DashboardProps {
@@ -24,8 +24,8 @@ const statusColors = {
 };
 
 const Dashboard = ({ cases, onDateSelect }: DashboardProps) => {
-  const today = new Date();
-  const next7Days = addDays(today, 7);
+const todayStart = startOfDay(new Date());
+const next7End = endOfDay(addDays(todayStart, 7));
 
   // Calculate statistics
   const stats: CaseStats = {
@@ -34,10 +34,10 @@ const Dashboard = ({ cases, onDateSelect }: DashboardProps) => {
       acc[case_.status] = (acc[case_.status] || 0) + 1;
       return acc;
     }, {} as Record<string, number>),
-    upcoming: cases.filter(case_ => {
-      const nextDate = new Date(case_.nextDate);
-      return nextDate >= today && nextDate <= next7Days;
-    }).length,
+upcoming: cases.filter(case_ => {
+  const nextDate = new Date(case_.nextDate);
+  return isWithinInterval(nextDate, { start: todayStart, end: next7End });
+}).length,
     today: cases.filter(case_ => {
       const nextDate = new Date(case_.nextDate);
       const previousDate = new Date(case_.previousDate);
@@ -53,10 +53,10 @@ const Dashboard = ({ cases, onDateSelect }: DashboardProps) => {
   });
 
   // Get upcoming cases (next 7 days)
-  const upcomingCases = cases.filter(case_ => {
-    const nextDate = new Date(case_.nextDate);
-    return nextDate >= today && nextDate <= next7Days && !isToday(nextDate);
-  }).sort((a, b) => new Date(a.nextDate).getTime() - new Date(b.nextDate).getTime());
+const upcomingCases = cases.filter(case_ => {
+  const nextDate = new Date(case_.nextDate);
+  return isWithinInterval(nextDate, { start: todayStart, end: next7End }) && !isToday(nextDate);
+}).sort((a, b) => new Date(a.nextDate).getTime() - new Date(b.nextDate).getTime());
 
   return (
     <div className="space-y-6 md:space-y-8 px-2 md:px-0">
