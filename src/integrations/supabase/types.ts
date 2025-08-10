@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      case_events: {
+        Row: {
+          case_id: string
+          changed_at: string
+          changed_by: string
+          field: string
+          id: string
+          new_date: string | null
+          old_date: string | null
+        }
+        Insert: {
+          case_id: string
+          changed_at?: string
+          changed_by: string
+          field: string
+          id?: string
+          new_date?: string | null
+          old_date?: string | null
+        }
+        Update: {
+          case_id?: string
+          changed_at?: string
+          changed_by?: string
+          field?: string
+          id?: string
+          new_date?: string | null
+          old_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_case_events_case"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cases: {
         Row: {
           case_details: string
@@ -122,6 +160,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_access_case: {
+        Args: { p_case_id: string }
+        Returns: boolean
+      }
       is_team_member: {
         Args: { _team_id: string }
         Returns: boolean
