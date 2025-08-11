@@ -1,12 +1,19 @@
 import { Scale } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 interface HeaderProps {
   activeView: string;
   onViewChange: (view: string) => void;
 }
 
 const Header = ({ activeView, onViewChange }: HeaderProps) => {
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
   return (
     <header className="gradient-header shadow-legal">
       <div className="container mx-auto px-4 md:px-6 py-4 md:py-6">
@@ -25,34 +32,39 @@ const Header = ({ activeView, onViewChange }: HeaderProps) => {
             </div>
           </div>
 
-          <Tabs value={activeView} onValueChange={onViewChange} className="bg-white/10 rounded-lg p-1">
-            <TabsList className="bg-transparent grid grid-cols-2 md:grid-cols-4 gap-1">
-              <TabsTrigger 
-                value="dashboard" 
-                className="text-white data-[state=active]:bg-white data-[state=active]:text-legal-navy text-xs md:text-sm px-2 md:px-3"
-              >
-                Dashboard
-              </TabsTrigger>
-              <TabsTrigger 
-                value="calendar" 
-                className="text-white data-[state=active]:bg-white data-[state=active]:text-legal-navy text-xs md:text-sm px-2 md:px-3"
-              >
-                Calendar
-              </TabsTrigger>
-              <TabsTrigger 
-                value="diary" 
-                className="text-white data-[state=active]:bg-white data-[state=active]:text-legal-navy text-xs md:text-sm px-2 md:px-3"
-              >
-                Daily
-              </TabsTrigger>
-              <TabsTrigger 
-                value="manage" 
-                className="text-white data-[state=active]:bg-white data-[state=active]:text-legal-navy text-xs md:text-sm px-2 md:px-3"
-              >
-                Manage
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <div className="flex items-center gap-2">
+            <Tabs value={activeView} onValueChange={onViewChange} className="bg-white/10 rounded-lg p-1">
+              <TabsList className="bg-transparent grid grid-cols-2 md:grid-cols-4 gap-1">
+                <TabsTrigger 
+                  value="dashboard" 
+                  className="text-white data-[state=active]:bg-white data-[state=active]:text-legal-navy text-xs md:text-sm px-2 md:px-3"
+                >
+                  Dashboard
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="calendar" 
+                  className="text-white data-[state=active]:bg-white data-[state=active]:text-legal-navy text-xs md:text-sm px-2 md:px-3"
+                >
+                  Calendar
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="diary" 
+                  className="text-white data-[state=active]:bg-white data-[state=active]:text-legal-navy text-xs md:text-sm px-2 md:px-3"
+                >
+                  Daily
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="manage" 
+                  className="text-white data-[state=active]:bg-white data-[state=active]:text-legal-navy text-xs md:text-sm px-2 md:px-3"
+                >
+                  Manage
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <Button variant="secondary" onClick={handleLogout} className="text-xs md:text-sm">
+              Logout
+            </Button>
+          </div>
         </div>
       </div>
     </header>

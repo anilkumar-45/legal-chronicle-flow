@@ -24,8 +24,9 @@ const statusColors = {
 };
 
 const Dashboard = ({ cases, onDateSelect }: DashboardProps) => {
-const todayStart = startOfDay(new Date());
-const next7End = endOfDay(addDays(todayStart, 7));
+  const todayStart = startOfDay(new Date());
+  const tomorrowStart = addDays(todayStart, 1);
+  const next7End = endOfDay(addDays(todayStart, 7));
 
   // Calculate statistics
   const stats: CaseStats = {
@@ -34,15 +35,15 @@ const next7End = endOfDay(addDays(todayStart, 7));
       acc[case_.status] = (acc[case_.status] || 0) + 1;
       return acc;
     }, {} as Record<string, number>),
-upcoming: cases.filter(case_ => {
-  const nextDate = new Date(case_.nextDate);
-  return isWithinInterval(nextDate, { start: todayStart, end: next7End });
-}).length,
-    today: cases.filter(case_ => {
+    upcoming: cases.filter((case_) => {
+      const nextDate = new Date(case_.nextDate);
+      return isWithinInterval(nextDate, { start: tomorrowStart, end: next7End });
+    }).length,
+    today: cases.filter((case_) => {
       const nextDate = new Date(case_.nextDate);
       const previousDate = new Date(case_.previousDate);
       return isToday(nextDate) || isToday(previousDate);
-    }).length
+    }).length,
   };
 
   // Get today's cases
@@ -53,10 +54,12 @@ upcoming: cases.filter(case_ => {
   });
 
   // Get upcoming cases (next 7 days)
-const upcomingCases = cases.filter(case_ => {
-  const nextDate = new Date(case_.nextDate);
-  return isWithinInterval(nextDate, { start: todayStart, end: next7End }) && !isToday(nextDate);
-}).sort((a, b) => new Date(a.nextDate).getTime() - new Date(b.nextDate).getTime());
+const upcomingCases = cases
+  .filter((case_) => {
+    const nextDate = new Date(case_.nextDate);
+    return isWithinInterval(nextDate, { start: addDays(startOfDay(new Date()), 1), end: next7End });
+  })
+  .sort((a, b) => new Date(a.nextDate).getTime() - new Date(b.nextDate).getTime());
 
   return (
     <div className="space-y-6 md:space-y-8 px-2 md:px-0">
