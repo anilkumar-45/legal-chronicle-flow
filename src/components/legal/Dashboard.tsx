@@ -28,6 +28,30 @@ const Dashboard = ({ cases, onDateSelect }: DashboardProps) => {
   const tomorrowStart = addDays(todayStart, 1);
   const next7End = endOfDay(addDays(todayStart, 7));
 
+  // Helpers for consistent date handling
+  const isDateToday = (d: Date) => isWithinInterval(d, { start: todayStart, end: endOfDay(todayStart) });
+
+  // Today's cases (consider both previousDate and nextDate)
+  const todaysCases = cases.filter((case_) => {
+    const prev = new Date(case_.previousDate);
+    const next = new Date(case_.nextDate);
+    return isDateToday(prev) || isDateToday(next);
+  });
+
+  // Upcoming entries (next 7 days) considering both previousDate and nextDate
+  const upcomingEntries = cases
+    .map((case_) => {
+      const prev = new Date(case_.previousDate);
+      const next = new Date(case_.nextDate);
+      const window = { start: tomorrowStart, end: next7End };
+      const valid = [prev, next].filter((d) => isWithinInterval(d, window));
+      if (valid.length === 0) return null;
+      const date = valid.sort((a, b) => a.getTime() - b.getTime())[0];
+      return { caseEntry: case_, date };
+    })
+    .filter(Boolean)
+    .sort((a, b) => (a as { caseEntry: CaseEntry; date: Date }).date.getTime() - (b as { caseEntry: CaseEntry; date: Date }).date.getTime()) as { caseEntry: CaseEntry; date: Date }[];
+
   // Calculate statistics
   const stats: CaseStats = {
     total: cases.length,
@@ -35,31 +59,9 @@ const Dashboard = ({ cases, onDateSelect }: DashboardProps) => {
       acc[case_.status] = (acc[case_.status] || 0) + 1;
       return acc;
     }, {} as Record<string, number>),
-    upcoming: cases.filter((case_) => {
-      const nextDate = new Date(case_.nextDate);
-      return isWithinInterval(nextDate, { start: tomorrowStart, end: next7End });
-    }).length,
-    today: cases.filter((case_) => {
-      const nextDate = new Date(case_.nextDate);
-      const previousDate = new Date(case_.previousDate);
-      return isToday(nextDate) || isToday(previousDate);
-    }).length,
+    upcoming: upcomingEntries.length,
+    today: todaysCases.length,
   };
-
-  // Get today's cases
-  const todaysCases = cases.filter(case_ => {
-    const nextDate = new Date(case_.nextDate);
-    const previousDate = new Date(case_.previousDate);
-    return isToday(nextDate) || isToday(previousDate);
-  });
-
-  // Get upcoming cases (next 7 days)
-const upcomingCases = cases
-  .filter((case_) => {
-    const nextDate = new Date(case_.nextDate);
-    return isWithinInterval(nextDate, { start: addDays(startOfDay(new Date()), 1), end: next7End });
-  })
-  .sort((a, b) => new Date(a.nextDate).getTime() - new Date(b.nextDate).getTime());
 
   return (
     <div className="space-y-6 md:space-y-8 px-2 md:px-0">
@@ -152,23 +154,23 @@ const upcomingCases = cases
             <CardTitle className="text-xl font-serif text-legal-navy">Upcoming Cases (Next 7 Days)</CardTitle>
           </CardHeader>
           <CardContent>
-            {upcomingCases.length === 0 ? (
+            {upcomingEntries.length === 0 ? (
               <div className="text-center py-8">
                 <p className="text-legal-gray">No upcoming cases in the next 7 days.</p>
               </div>
             ) : (
               <div className="space-y-4 max-h-96 overflow-y-auto">
-                {upcomingCases.map((caseEntry) => (
+                {upcomingEntries.map(({ caseEntry, date }) => (
                   <div key={caseEntry.id} className="p-4 bg-muted/30 rounded-lg border border-legal-gray-light/30">
                     <div className="flex items-center justify-between mb-2">
                       <Badge className={`${statusColors[caseEntry.status]} text-xs`}>
                         {caseEntry.status.charAt(0).toUpperCase() + caseEntry.status.slice(1)}
                       </Badge>
                       <button
-                        onClick={() => onDateSelect(new Date(caseEntry.nextDate))}
+                        onClick={() => onDateSelect(date)}
                         className="text-legal-gold hover:text-legal-gold-light text-sm font-medium transition-colors"
                       >
-                        {format(new Date(caseEntry.nextDate), "MMM d, yyyy")}
+                        {format(date, "MMM d, yyyy")}
                       </button>
                     </div>
                     <p className="text-sm text-foreground line-clamp-2">{caseEntry.caseDetails}</p>
