@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, TrendingUp, Clock, FileText } from "lucide-react";
 import { CaseEntry, CaseStats } from "@/types/case";
-import { format, isToday, addDays, startOfDay, endOfDay, isWithinInterval } from "date-fns";
+import { format, addDays } from "date-fns";
 import CaseCard from "./CaseCard";
 
 interface DashboardProps {
@@ -24,33 +24,38 @@ const statusColors = {
 };
 
 const Dashboard = ({ cases, onDateSelect }: DashboardProps) => {
-  const todayStart = startOfDay(new Date());
-  const tomorrowStart = addDays(todayStart, 1);
-  const next7End = endOfDay(addDays(todayStart, 7));
+  // Date helpers using date-only strings to avoid timezone issues
+  const toDateOnly = (d: Date) => d.toISOString().split("T")[0];
+  const todayStr = toDateOnly(new Date());
+  const tomorrowStr = toDateOnly(addDays(new Date(), 1));
+  const end7Str = toDateOnly(addDays(new Date(), 7));
+  const isoToDateOnly = (iso: string) => new Date(iso).toISOString().split("T")[0];
 
-  // Helpers for consistent date handling
-  const isDateToday = (d: Date) => isWithinInterval(d, { start: todayStart, end: endOfDay(todayStart) });
-
-  // Today's cases (consider both previousDate and nextDate)
+  // Today's cases (consider both previousDate and nextDate by date string)
   const todaysCases = cases.filter((case_) => {
-    const prev = new Date(case_.previousDate);
-    const next = new Date(case_.nextDate);
-    return isDateToday(prev) || isDateToday(next);
+    const prevStr = isoToDateOnly(case_.previousDate);
+    const nextStr = isoToDateOnly(case_.nextDate);
+    return prevStr === todayStr || nextStr === todayStr;
   });
 
-  // Upcoming entries (next 7 days) considering both previousDate and nextDate
+  // Upcoming entries (next 7 days) using lexicographic comparison of YYYY-MM-DD
   const upcomingEntries = cases
     .map((case_) => {
-      const prev = new Date(case_.previousDate);
-      const next = new Date(case_.nextDate);
-      const window = { start: tomorrowStart, end: next7End };
-      const valid = [prev, next].filter((d) => isWithinInterval(d, window));
-      if (valid.length === 0) return null;
-      const date = valid.sort((a, b) => a.getTime() - b.getTime())[0];
-      return { caseEntry: case_, date };
+      const prevStr = isoToDateOnly(case_.previousDate);
+      const nextStr = isoToDateOnly(case_.nextDate);
+      const candidates = [prevStr, nextStr].filter(
+        (d) => d >= tomorrowStr && d <= end7Str
+      );
+      if (candidates.length === 0) return null as any;
+      const dateStr = candidates.sort()[0];
+      return { caseEntry: case_, date: new Date(`${dateStr}T00:00:00Z`) };
     })
     .filter(Boolean)
-    .sort((a, b) => (a as { caseEntry: CaseEntry; date: Date }).date.getTime() - (b as { caseEntry: CaseEntry; date: Date }).date.getTime()) as { caseEntry: CaseEntry; date: Date }[];
+    .sort(
+      (a, b) =>
+        (a as { caseEntry: CaseEntry; date: Date }).date.getTime() -
+        (b as { caseEntry: CaseEntry; date: Date }).date.getTime()
+    ) as { caseEntry: CaseEntry; date: Date }[];
 
   // Calculate statistics
   const stats: CaseStats = {
